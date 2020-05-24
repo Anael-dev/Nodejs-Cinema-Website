@@ -1,8 +1,40 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+.all-users {
+  padding: 2px;
+}
+.all-users li {
+  letter-spacing: 0.5px;
+  padding: 5px;
+  list-style: none;
+}
+.all-users label {
+  font-weight: 600;
+  padding-right: 3px;
+}
+
+.user {
+  width: 30%;
+  border: 2px solid rgb(228, 173, 173);
+  margin-top: 10px;
+  padding: 5px;
+}
+.user-form {
+  margin-top: 10px;
+  border: 2px solid purple;
+  width: 30%;
+  padding: 15px;
+}
+
+.user-form input,
+label {
+  letter-spacing: 0.5px;
+  padding: 3px;
+  margin-top: 5px;
 }

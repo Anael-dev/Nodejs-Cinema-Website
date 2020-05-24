@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users Management</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <%- include ../partials/header%>
+    <h1>Users</h1>
+
+    <% if(option==="allUsers"){ %> <%-include ../partials/allUsersSection%> <% }
+    %> <% if(option==="addUser"){ %> <%-include ../partials/addUserSection%> <%
+    } %><% if(option==="editUser"){ %> <%-include ../partials/editUserSection%> <% }
+    %>
+  </body>
+</html>

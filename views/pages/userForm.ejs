@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>login</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <% include ../partials/title%>
+    <h3><%=title%></h3>
+    <br />
+    <p style="color: red;"><%=faildMessage%></p>
+
+    <% if(action==="login"){ %>
+      <form method="POST" action="/login/postLogin">
+        <% } else{ %> 
+          <form method="POST" action="/login/postCreateAccount">
+          <% } %>
+      <label>User name:</label><input type="text" name="username" />
+      <br />
+      <label>Password:</label><input type="password" name="password" />
+      <br />
+      <input type="submit" value="<%=action%>" />
+    </form>
+    <br />
+    <% if(action==="login"){ %>
+    <label>New user?</label><a href="/login/createAccount">Create Account</a>
+    <% } %>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<a href="/usersManagement/allUsers"><button>All users</button></a>
+<a href="/usersManagement/addUser"><button>Add user</button></a>
+
+<div class="all-users">
+    <% users.forEach((x)=>{ %>
+  <div class="user">
+    <ul>
+    <li><label>Name:</label><%=x.name%></li>
+    <li><label>User Name:</label><%= x.username%></li>
+    <li><label>Session Time (Minutes): </label><%= x.sessionTime%></li>
+    <li><label>Created Date: </label><%= x.createdDate%></li>
+    <li><label>Permissions: </label><%= x.permissions%></li>
+   <li><a href="/usersManagement/editUser/<%=x.id%>"><button>Edit</button></a>
+   <a href="/usersManagement/deleteUser/<%=x.id%>"><button>Delete</button></a></li>
+  </ul>
+
+  </div>
+    <% }) %>
+</div>

@@ -1,0 +1,8 @@
+<nav>
+  <a href="/movies"><button>Movies</button></a>
+  <a href="/subscriptions"><button>Subscriptions</button></a>
+  <% if(user.admin){ %>
+  <a href="/usersManagement"><button>Users Management</button></a>
+  <% } %>
+  <a href="/login/logout"><button>Log Out</button></a>
+</nav>
