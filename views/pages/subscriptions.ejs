@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>subscriptions</title>
+    <title>Users</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <%- include ../partials/header%>
-    <p>Subscriptions</p>
+
+    <% if(option==="all"){ %> <%-include ../partials/allMembersSection%> <% }
+    %> <% if(option==="add"){ %> <%-include ../partials/addMembersection%> <%
+    } %><% if(option==="edit"){ %> <%-include ../partials/editMembersection%> <% }
+    %>
   </body>
 </html>

@@ -1,4 +1,4 @@
-<div class="user-form">
+<div class="element-form">
     <% let type; %> 
     <form method="POST" name="userform">
       <label>First Name:</label
@@ -44,7 +44,7 @@
       <% }) %>
       <br />
       <% let value =
-      option==="editUser" ? "update" : "save" %>
+      option==="edit" ? "update" : "save" %>
       <input type="submit" onclick="postform('<%=value%>')" value='<%=value%>' />
       <input type="submit" onclick="cancelform()" value='cancel' />
     </form>
@@ -67,14 +67,14 @@
     function postform(value) {
         if(value==="update"){
             document.userform.action =
-        "/usersManagement/postUpdateUser/<%=users.id%>";
+        "/users/postUpdateUser/<%=users.id%>";
         }else if (value==="save"){
             document.userform.action =
-        "/usersManagement/postSaveUser";
+        "/users/postSaveUser";
         }
 
     }
     function cancelform() {
-      document.userform.action = "/usersManagement/cancel";
+      document.userform.action = "/users/cancel";
     }
   </script>

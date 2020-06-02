@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Users</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <%- include ../partials/header%>
+
+    <% if(option==="all"){ %> <%-include ../partials/allUsersSection%> <% }
+    %> <% if(option==="add"){ %> <%-include ../partials/addUserSection%> <%
+    } %><% if(option==="edit"){ %> <%-include ../partials/editUserSection%> <% }
+    %>
+  </body>
+</html>

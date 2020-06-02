@@ -1,0 +1,16 @@
+<% const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1) %>
+
+<% if(!user.admin){ %>
+
+ <% if(user.permissions.includes(`Update ${typeCapitalized}s`)){ %>
+    <a href="/<%=type%>s/edit<%=typeCapitalized%>/<%=x.id%>"><button>Edit</button></a>
+     <% } %>
+<% if(user.permissions.includes(`Delete ${typeCapitalized}s`)){ %>
+    <a href="/<%=type%>s/delete<%=typeCapitalized%>/<%=x.id%>"><button>Delete</button></a>
+    <% } %>
+    <% } else {%>
+        <a href="/<%=type%>s/edit<%=typeCapitalized%>/<%=x.id%>"><button>Edit</button></a>
+        <a href="/<%=type%>s/delete<%=typeCapitalized%>/<%=x.id%>"><button>Delete</button></a>
+    <% } %>
+
+

@@ -1,0 +1,19 @@
+<div class="flex">
+<%- include ./menuOptions%>
+<%- include ./findMovie%>
+</div>
+<div class="all">
+    <% movies.forEach((x)=>{ %>
+  <div class="element">
+    <ul>
+    <li><span><%=x.name%></span>, <span><%=x.premiered.split("-")[0]%></span></li>
+    <li><label>Genres:</label><%=x.genres.join(", ")%></li>
+    <li class="flex"><img src="<%= x.image.medium?x.image.medium:x.image%>"/><%- include ./subscriptionsList%></li>
+      <li><%- include ./buttonOptions%> </li>
+
+
+  </ul>
+
+  </div>
+    <% }) %>
+</div>

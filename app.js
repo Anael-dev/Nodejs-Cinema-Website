@@ -8,7 +8,7 @@ var loginRouter = require("./routes/login");
 var mainRouter = require("./routes/main");
 var moviesRouter = require("./routes/movies");
 var subscriptionsRouter = require("./routes/subscriptions");
-var usersManagementRouter = require("./routes/usersManagement");
+var usersRouter = require("./routes/users");
 
 const usersDB = require("./configs/database");
 
@@ -40,7 +40,7 @@ app.use("/login", loginRouter);
 app.use("/main", mainRouter);
 app.use("/movies", moviesRouter);
 app.use("/subscriptions", subscriptionsRouter);
-app.use("/usersManagement", usersManagementRouter);
+app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,2 +1,15 @@
+
 <h4><%=user.fullName%></h4>
-<% include title %> <% include nav-bar%>
+<h1>Movies- Subscription Web Site</h1>
+<nav>
+    <a href="/movies"><button>Movies</button></a>
+    <a href="/subscriptions"><button>Subscriptions</button></a>
+    <% if(user.admin){ %>
+    <a href="/users"><button>Users Management</button></a>
+    <% } %>
+    <a href="/login/logout"><button>Log Out</button></a>
+  </nav>
+  <%if (type){ %>
+    <% const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1) %>
+    <h1 ><%=typeCapitalized%>s</h1>
+  <% }         %>

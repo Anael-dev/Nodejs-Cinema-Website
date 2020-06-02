@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>movies</title>
+    <title>Users</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <!-- <% include header%> -->
-    <p>Movies</p>
+    <%- include ../partials/header%>
+
+    <% if(option==="all"){ %> <%-include ../partials/allMoviesSection%> <% }
+    %> <% if(option==="add"){ %> <%-include ../partials/addMovieSection%> <%
+    } %><% if(option==="edit"){ %> <%-include ../partials/editMovieSection%> <% }
+    %>
   </body>
 </html>

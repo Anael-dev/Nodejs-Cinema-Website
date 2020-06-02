@@ -4,7 +4,7 @@ const usersDAL = require("../DAL/usersDAL.js");
 const permissionsJson = require("../DAL/Permissions.json");
 const permissionsDAL = require("../DAL/permissionsDAL.js");
 
-var moment = require("moment");
+const moment = require("moment");
 
 exports.checkLogin = (reqBody) => {
   return new Promise((resolve, reject) => {
@@ -29,7 +29,33 @@ exports.checkLogin = (reqBody) => {
   });
 };
 
-exports.findAndUpdateAccount = (reqBody) => {
+exports.findUserInJson = async (id) => {
+  const userId = id.toString();
+
+  const users = await usersDAL.readFile();
+  const filteredUser = users.filter((x) => x.id === userId);
+  const userData = filteredUser[0];
+
+  const permissions = await permissionsDAL.readFile();
+  const filteredPerm = permissions.filter((x) => x.id === userId);
+  const userPermissions = filteredPerm[0].permissions;
+
+  return { user: userData, permissions: userPermissions };
+};
+
+exports.getUsersFromDB = () => {
+  return new Promise((resolve, reject) => {
+    User.find({}, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
+
+exports.findAndUpdateAccountDB = (reqBody) => {
   return new Promise((resolve, reject) => {
     if (reqBody.username && reqBody.password) {
       const username = reqBody.username;
@@ -61,35 +87,9 @@ exports.findAndUpdateAccount = (reqBody) => {
   });
 };
 
-exports.findUserInJson = async (id) => {
-  const userId = id.toString();
-
-  const users = await usersDAL.readFile();
-  const filteredUser = users.filter((x) => x.id === userId);
-  const userData = filteredUser[0];
-
-  const permissions = await permissionsDAL.readFile();
-  const filteredPerm = permissions.filter((x) => x.id === userId);
-  const userPermissions = filteredPerm[0].permissions;
-
-  return { user: userData, permissions: userPermissions };
-};
-
-exports.getUsersFromDb = () => {
-  return new Promise((resolve, reject) => {
-    User.find({}, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
 exports.getAllMappedUsers = async () => {
   let usersMappedArr = [];
-  const usersDb = await this.getUsersFromDb();
+  const usersDb = await this.getUsersFromDB();
   const usersJson = await usersDAL.readFile();
   const usersPermissions = await permissionsDAL.readFile();
   if (
@@ -112,6 +112,25 @@ exports.getAllMappedUsers = async () => {
   return usersMappedArr;
 };
 
+exports.findUser = async (id) => {
+  const users = await this.getAllMappedUsers();
+  let user = users.find((x) => x.id === id);
+  const fullName = user.name.split(" ");
+  console.log(fullName);
+  user = { ...user, fname: fullName[0], lname: fullName[1] };
+  return user;
+};
+
+exports.getAllPermissions = async () => {
+  let usersPerm = await permissionsDAL.readFile();
+  console.log(usersPerm);
+
+  const adminPermissions = usersPerm[0].permissions;
+  console.log(adminPermissions);
+  return adminPermissions;
+};
+
+/** DELETE **/
 exports.deleteUserDB = (id) => {
   return new Promise((resolve, reject) => {
     User.findByIdAndDelete(id, (err, data) => {
@@ -134,7 +153,7 @@ exports.deleteUserJson = async (id) => {
   return response;
 };
 
-exports.deleteUserPerm = async (id) => {
+exports.deleteUserPermissions = async (id) => {
   const usersPermissions = await permissionsDAL.readFile();
   const user = usersPermissions.find((x) => x.id === id);
   const index = usersPermissions.indexOf(user);
@@ -144,29 +163,54 @@ exports.deleteUserPerm = async (id) => {
   return response;
 };
 
-exports.findUser = async (id) => {
-  const users = await this.getAllMappedUsers();
-  let user = users.find((x) => x.id === id);
-  const fullName = user.name.split(" ");
-  console.log(fullName);
-  user = { ...user, fname: fullName[0], lname: fullName[1] };
-  return user;
+exports.deleteUser = async (id) => {
+  //DB
+  const responseDB = await this.deleteUserDB(id);
+  //UsersJson
+  const responseJson = await this.deleteUserJson(id);
+  //PermissionsJson
+  const responsePerm = await this.deleteUserPermissions(id);
+
+  return [responseDB, responseJson, responsePerm];
 };
 
-exports.getAllPermission = async () => {
-  let usersPerm = await permissionsDAL.readFile();
-  console.log(usersPerm);
+/** UPDATE **/
+exports.updateUserDB = (id, reqBody) => {
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(id, { UserName: reqBody.username }, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve("Updated!");
+      }
+    });
+  });
+};
 
-  const adminPermissions = usersPerm[0].permissions;
-  console.log(adminPermissions);
-  return adminPermissions;
+exports.updateUserData = async (id, reqBody) => {
+  const userId = id.toString();
+
+  let users = await usersDAL.readFile();
+  const filteredUser = users.find((x) => x.id === userId);
+  const index = users.indexOf(filteredUser);
+  const updatedUser = {
+    ...filteredUser,
+    firstName: reqBody.fname,
+    lastName: reqBody.lname,
+    sessionTime: Number(reqBody.sessiontime),
+  };
+  console.log(updatedUser);
+  users.splice(index, 1, updatedUser);
+
+  let writeResponse = await usersDAL.writeFile(users);
+  return writeResponse;
 };
 
 exports.updateUserPermissions = async (id, reqBody) => {
   const userId = id.toString();
 
   let usersPerm = await permissionsDAL.readFile();
-  let filteredUser = usersPerm.find((x) => x.id === id);
+  let filteredUser = usersPerm.find((x) => x.id === userId);
   const index = usersPerm.indexOf(filteredUser);
   const updatedPerm = {
     ...filteredUser,
@@ -175,6 +219,55 @@ exports.updateUserPermissions = async (id, reqBody) => {
   usersPerm.splice(index, 1, updatedPerm);
 
   let writeResponse = await permissionsDAL.writeFile(usersPerm);
+  return writeResponse;
+};
+
+exports.updateUser = async (id, reqBody) => {
+  //DB
+  const responseDB = await this.updateUserDB(id, reqBody);
+  //UsersJson
+  const responseJson = await this.updateUserData(id, reqBody);
+  //permissionsJson
+  const responsePerm = await this.updateUserPermissions(id, reqBody);
+  return [responseDB, responseJson, responsePerm];
+};
+
+/** ADD **/
+exports.addUserDB = (reqBody) => {
+  let newUser = new User({
+    UserName: reqBody.username,
+    Password: "",
+  });
+
+  return new Promise((resolve, reject) => {
+    newUser.save((err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result._id);
+      }
+    });
+  });
+};
+exports.addUserData = async (id, reqBody) => {
+  const userId = id.toString();
+
+  let users = await usersDAL.readFile();
+
+  const today = moment(new Date()).format("DD/MM/YYYY");
+
+  const newUser = {
+    id: userId,
+    firstName: reqBody.fname,
+    lastName: reqBody.lname,
+    createdDate: today,
+    sessionTime: Number(reqBody.sessiontime),
+  };
+
+  console.log(newUser);
+  users.push(newUser);
+
+  let writeResponse = await usersDAL.writeFile(users);
   return writeResponse;
 };
 
@@ -193,96 +286,9 @@ exports.addUserPermissions = async (id, reqBody) => {
   return writeResponse;
 };
 
-exports.updateUserData = async (id, reqBody) => {
-  const userId = id.toString();
-
-  let users = await usersDAL.readFile();
-  const filteredUser = users.find((x) => x.id === id);
-  const index = users.indexOf(filteredUser);
-  const updatedUser = {
-    ...filteredUser,
-    firstName: reqBody.fname,
-    lastName: reqBody.lname,
-    sessionTime: Number(reqBody.sessiontime),
-  };
-  console.log(updatedUser);
-  users.splice(index, 1, updatedUser);
-
-  let writeResponse = await usersDAL.writeFile(users);
-  return writeResponse;
-};
-
-exports.addUserData = async (id, reqBody) => {
-  const userId = id.toString();
-
-  let users = await usersDAL.readFile();
-  const today = moment(new Date()).format("DD/MM/YYYY");
-
-  const newUser = {
-    id: userId,
-    firstName: reqBody.fname,
-    lastName: reqBody.lname,
-    createdDate: today,
-    sessionTime: Number(reqBody.sessiontime),
-  };
-
-  console.log(newUser);
-  users.push(newUser);
-
-  let writeResponse = await usersDAL.writeFile(users);
-  return writeResponse;
-};
-
-exports.updateUserDocument = (id, reqBody) => {
-  return new Promise((resolve, reject) => {
-    User.findByIdAndUpdate(id, { UserName: reqBody.username }, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve("Updated!");
-      }
-    });
-  });
-};
-
-exports.addUserDocument = (reqBody) => {
-  let newUser = new User({
-    UserName: reqBody.username,
-    Password: "",
-  });
-
-  return new Promise((resolve, reject) => {
-    newUser.save((err, result) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result._id);
-      }
-    });
-  });
-};
-
-exports.updateUser = async (id, reqBody) => {
-  //DB
-  const responseDB = await this.updateUserDocument(id, reqBody);
-  //UsersJson
-  const responseJson = await this.updateUserData(id, reqBody);
-  //permissionsJson
-  const responsePerm = await this.updateUserPermissions(id, reqBody);
-  return [responseDB, responseJson, responsePerm];
-};
-
-exports.deleteUser = async (id) => {
-  const responseDB = await this.deleteUserDB(id);
-  const responseJson = await this.deleteUserJson(id);
-  const responsePerm = await this.deleteUserPerm(id);
-
-  return [responseDB, responseJson, responsePerm];
-};
-
 exports.addUser = async (reqBody) => {
   //DB
-  const userId = await this.addUserDocument(reqBody);
+  const userId = await this.addUserDB(reqBody);
   //UsersJson
   const responseJson = await this.addUserData(userId, reqBody);
   //permissionsJson

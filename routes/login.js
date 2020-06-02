@@ -25,11 +25,12 @@ router.post("/postLogin", async function (req, res, next) {
           id: response.id,
           userName: response.userName,
           fullName: userData.user.firstName + " " + userData.user.lastName,
-          admin: userData.user.admin,
           permissions: userData.permissions,
         };
-        if (!req.session.loggedUser.admin) {
-          req.session.loggedUser.sessionTime = userData.user.sessionTimeOut;
+        if (!userData.user.admin) {
+          req.session.loggedUser.sessionTime = userData.user.sessionTime;
+        } else {
+          req.session.loggedUser.admin = userData.user.admin;
         }
         console.log(req.session.loggedUser);
         // req.session.time=0;
@@ -58,7 +59,7 @@ router.get("/createAccount", function (req, res, next) {
 
 router.post("/postCreateAccount", async function (req, res, next) {
   try {
-    const responseMsg = await usersBL.findAndUpdateAccount(req.body);
+    const responseMsg = await usersBL.findAndUpdateAccountDB(req.body);
     if (responseMsg.success) {
       res.redirect("/login");
     } else {
