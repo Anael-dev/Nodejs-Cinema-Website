@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.add-movie{
+    display: none;
+}
+
+</style>
+</head>
+<body>
+
+<div class="movies-watched">
+<h6>Movies watched</h6>
+
+<%if(user.permissions.includes('Update Subscriptions')){ %>
+<div class="wrapper">
+<input type="button" value="Subscride to new movie" class="btn btn-sm btn-outline-dark my-1 my-sm-1" onclick="toggle(this)"/>
+<div class="add-movie p-t:2 p-2" style="border: 0.5px solid teal; border-radius: 5px;" >
+    <p class="font-weight-light">Add a new Movie</p>
+    <form method="POST" action="/subscriptions/postSubscribedMovie/<%=x.id%>">
+        <select name="movie" class="custom-select my-1 mr-sm-1">
+            <%x.restMovies.forEach((x)=>{ %>
+            <option value="<%=x.id%>"><%=x.name%></option>
+            <% })                        %>
+          </select>
+          <div class="form-group row">
+            <div class="col-10">
+              <input name="date" class="form-control" type="date" value="2020-06-11" id="example-date-input">
+            </div>
+          </div>
+    <input type="submit" value="submit" class="input-group-text d-inline-flex"/>
+</form>
+</div>
+</div>
+<% } %>
+<% if(x.watchedMovies){ %>
+    <%-include subscribedMovies%>
+  <% }          %>
+    </div>
+
+<script>
+
+function toggle(param) {
+    const div = param.nextElementSibling;
+    div.style.display = div.style.display == 'none'||div.style.display == '' ? 'block' : 'none';
+}
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<div class="movies-watched">
+    <h6>Subscribtions watched</h6>
+    <ul>
+        <% x.watchedMembers.forEach((x)=>{ %>
+            <li><a href="/subscriptions/allMembers/<%=x.id%>"><%=x.name%></a>, <%=x.date%></li>
+            <% })   %> 
+          </ul>
+        </div>

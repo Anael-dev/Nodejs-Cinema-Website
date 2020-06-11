@@ -1,0 +1,7 @@
+
+
+      <ul class="list-group list-group-flush">
+        <% x.watchedMovies.forEach((x)=>{ %>
+        <li class="list-group-item"><a href="/movies/allMovies/<%=x.id%>"><%=x.name%></a> ,<%=x.date%></li>
+        <% })   %> 
+      </ul>

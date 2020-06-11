@@ -1,0 +1,14 @@
+<% const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1) %>
+
+<% if(!user.admin){ %>
+
+ <% if(user.permissions.includes('Update Subscriptions')){ %>
+    <a href="/subscriptions/edit<%=typeCapitalized%>/<%=x.id%>"><button class="btn btn-secondary btn-sm">Edit</button></a>
+     <% } %>
+<% if(user.permissions.includes('Delete Subscriptions')){ %>
+    <a href="/subscriptions/delete<%=typeCapitalized%>/<%=x.id%>"><button class="btn btn-secondary btn-sm">Delete</button></a>
+    <% } %>
+    <% } else {%>
+        <a href="/subscriptions/edit<%=typeCapitalized%>/<%=x.id%>"><button class="btn btn-secondary btn-sm">Edit</button></a>
+        <a href="/subscriptions/delete<%=typeCapitalized%>/<%=x.id%>"><button class="btn btn-secondary btn-sm">Delete</button></a>
+    <% } %>

@@ -1,0 +1,33 @@
+
+<div style="width: 100%;">
+<nav class="m-0 p-0 pb-2 navbar justify-content-between" >
+  <%- include ../menuOptions%>
+  <%- include ./findMovie%>
+</nav>
+
+<div class="d-flex justify-content-between flex-wrap mt-2">
+<% movies.forEach((x)=>{ %>
+<div class="card mb-3 p-0" style="width: 49%;min-width: 30%;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="<%= x.image.medium?x.image.medium:x.image%>" class="card-img-top rounded img-thumbnail" alt="<%=x.name%>">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%=x.name%></h5>
+        <p class="card-text"><label><%=x.premiered.split("-")[0]%></label><br/><label>Genres:</label><%=x.genres.join(", ")%></p>
+        <% if(x.watchedMembers){ %>
+          <%- include ./watchedMembers%>
+          <% } %> 
+        <p class="card-text"><small class="text-muted"><%- include ../buttonOptions%></small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<% }) %>
+</div>
+</div>
+</div>

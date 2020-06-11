@@ -1,0 +1,19 @@
+<div style="width: 100%;">
+<%- include ../menuOptions%>
+
+<div class="mt-2">
+    <% members.forEach((x)=>{ %>
+    <div class="card border-dark my-3" style="width: 30%;">
+    <div class="card-header"><h6><%=x.name%></h6></div>
+    <div class="card-body text-dark">
+    <p class="card-text"><label> Email:</label><%=x.email%><br/>
+    <label> City:</label><%=x.city%></p>
+    <% if(user.permissions.includes("Delete Subscriptions"|| "Update Subscriptions")){ %>
+      <p class="card-text"><small class="text-muted"><%- include ./buttonOptionsMembers%></small></p>
+      <% } %>
+      <%-include watchedMovies%>
+  </div>
+    </div>
+    <% }) %>
+</div>
+</div>

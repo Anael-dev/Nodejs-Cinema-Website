@@ -1,0 +1,44 @@
+
+    <form method="POST" name="memberform">
+      <div class="form-row">
+        <div class="col-md-4 mb-1">
+      <label> Name:</label
+      ><input type="text" name="name" value="<%=members.name%>" class="form-control" />
+        </div>
+        </div>
+        <div class="form-row">
+        <div class="col-md-4 mb-1"> 
+        <label>Email:</label
+      ><input type="text" name="email" value="<%=members.email%>" class="form-control"/>
+        </div>
+        </div>
+        <div class="form-row">
+        <div class="col-md-4 mb-1">
+      <label>City:</label
+      ><input type="text" name="city" value="<%=members.city%>" class="form-control"/>
+      </div>
+      </div>
+      <br/>
+      <% let value =
+      option==="edit" ? "update" : "save" %>
+      <input type="submit" class="input-group-text d-inline-flex" onclick="postform('<%=value%>')" value='<%=value%>' />
+      <input type="submit" class="input-group-text d-inline-flex" onclick="cancelform()" value='cancel' />
+    </div>
+    </form>
+  
+  <script>
+  
+    function postform(value) {
+        if(value==="update"){
+            document.memberform.action =
+        "/subscriptions/postUpdateMember/<%=members.id%>";
+        }else if (value==="save"){
+            document.memberform.action =
+        "/subscriptions/postSaveMember";
+        }
+  
+    }
+    function cancelform() {
+      document.memberform.action = "/subscriptions/cancel";
+    }
+  </script>

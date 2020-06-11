@@ -1,0 +1,20 @@
+<div style="width: 100%;">
+<%- include ../menuOptions%>
+
+<div class="mt-2">
+    <% users.forEach((x)=>{ %>
+    <div class="card border-dark my-3" style="width: 30%;">
+    <div class="card-header"><h6><%=x.name%></h6></div>
+    <div class="card-body text-dark">
+    <p class="card-text"><label> User Name:</label><%=x.username%>
+    <p class="card-text"><label> Session Time (Minutes):</label><%= x.sessionTime%>
+    <p class="card-text"><label> Created Date:</label><%= x.createdDate%>
+    <p class="card-text"><label> Permissions: </label><%= x.permissions%>
+    <p class="card-text"><small class="text-muted"><%- include ../buttonOptions%></small></p>
+
+  </div>
+</div>
+    <% }) %>
+    </div>
+</div>
+</div>

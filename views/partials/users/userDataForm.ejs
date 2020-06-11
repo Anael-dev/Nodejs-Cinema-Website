@@ -1,0 +1,81 @@
+  <% let type; %> 
+    <form method="POST" name="userform">
+      <form method="POST" name="userform">
+        <div class="form-row">
+          <div class="col-md-3 mb-3">
+            <label>First name</label>
+            <input type="text" name="fname" value="<%=users.fname%>" class="form-control" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label>Last name</label>
+            <input type="text" name="lname" value="<%=users.lname%>" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-3 mb-3">
+            <label>User name</label>
+            <input type="text" name="username" value="<%=users.username%>" class="form-control" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label>Session Time (Minutes):</label>
+            <input type="text"name="sessiontime"
+            value="<%= users.sessionTime%>" class="form-control" required>
+          </div>
+        </div>
+      <%if(users){ %>
+      <label>Created Date: </label>
+      <%= users.createdDate%>
+      <% } %>
+      <label>Permissions: </label>
+      <br />
+      <% permissions.forEach((x)=>{ %>
+      <% let action= x.split(' ')[0] %>
+      <% let type= x.split(' ')[1] %> 
+      <% let checked=false %>
+      <%if(users){ %>
+        <% checked = users.permissions.includes(x) ? "checked" : "" %>
+      <% } %>
+      <input
+        type="checkbox"
+        name="permission"
+        value="<%=x%>"
+        id="<%=action%>-<%=type%>"
+        onclick="toggleView('<%=type%>')"
+        <%=checked%>
+      />
+      <label style="font-weight: 400;" for="<%=action%>-<%=type%>"><%=x%></label> <br />
+      <% }) %>
+      <% let value =
+      option==="edit" ? "update" : "save" %>
+      <input type="submit" class="input-group-text d-inline-flex" onclick="postform('<%=value%>')" value='<%=value%>' />
+      <input type="submit" class="input-group-text d-inline-flex" onclick="cancelform()" value='cancel' />
+    </form>
+
+  <script>
+    function toggleView(type) {
+      const update = document.getElementById(`Update-${type}`);
+      const create = document.getElementById(`Create-${type}`);
+      const remove = document.getElementById(`Delete-${type}`);
+      const view = document.getElementById(`View-${type}`);
+
+      if (remove.checked && update.checked && create.checked) {
+        // if checked
+        console.log("checked");
+        view.checked = true;
+      }
+    }
+
+    function postform(value) {
+        if(value==="update"){
+            document.userform.action =
+        "/users/postUpdateUser/<%=users.id%>";
+        }else if (value==="save"){
+            document.userform.action =
+        "/users/postSaveUser";
+        }
+
+    }
+    function cancelform() {
+      document.userform.action = "/users/cancel";
+    }
+  </script>
