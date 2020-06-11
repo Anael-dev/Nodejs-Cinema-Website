@@ -1,5 +1,18 @@
 <% const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1) %>
-<div>
- <a href="/<%=type%>s/all<%=typeCapitalized%>s"><button>All <%=typeCapitalized%>s</button></a>
- <a href="/<%=type%>s/add<%=typeCapitalized%>"><button>Add <%=typeCapitalized%></button></a>    
+
+<% let typeLink%>
+  
+  <%if (type=="member"){ %>
+  <% typeLink='Subscription' %>
+  <% } else{ %>
+    <% typeLink=type %>
+ <%  }   %>
+
+ <% const typeLinkCapitalized = typeLink.charAt(0).toUpperCase() + typeLink.slice(1) %>
+
+ <div class="btn-group btn-group-toggle" data-toggle="buttons">
+<a href="/<%=typeLink%>s/all<%=typeCapitalized%>s" class="btn btn-secondary btn-sm active" role="button" aria-pressed="true">All <%=typeCapitalized%>s</a>
+<%if(user.admin || user.permissions.includes(`Create ${typeLinkCapitalized}s`)){ %>
+<a href="/<%=typeLink%>s/add<%=typeCapitalized%>" class="btn btn-secondary btn-sm" role="button" aria-pressed="true">Add <%=typeCapitalized%></a>
+<% } %>
 </div>

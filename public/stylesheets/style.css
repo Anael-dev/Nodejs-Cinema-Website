@@ -19,16 +19,10 @@ a {
   padding-right: 3px;
 }
 
-.element {
-  width: 30%;
-  border: 2px solid rgb(228, 173, 173);
-  margin-top: 10px;
-  padding: 5px;
-}
 .element-form {
   margin-top: 10px;
   border: 2px solid purple;
-  width: 30%;
+  width: 35%;
   padding: 15px;
 }
 
@@ -37,10 +31,9 @@ label {
   letter-spacing: 0.5px;
   padding: 3px;
   margin-top: 5px;
+  font-weight: 500;
 }
 
 .flex {
   display: flex;
 }
-
-

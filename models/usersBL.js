@@ -116,17 +116,14 @@ exports.findUser = async (id) => {
   const users = await this.getAllMappedUsers();
   let user = users.find((x) => x.id === id);
   const fullName = user.name.split(" ");
-  console.log(fullName);
   user = { ...user, fname: fullName[0], lname: fullName[1] };
   return user;
 };
 
 exports.getAllPermissions = async () => {
   let usersPerm = await permissionsDAL.readFile();
-  console.log(usersPerm);
 
   const adminPermissions = usersPerm[0].permissions;
-  console.log(adminPermissions);
   return adminPermissions;
 };
 
@@ -199,7 +196,6 @@ exports.updateUserData = async (id, reqBody) => {
     lastName: reqBody.lname,
     sessionTime: Number(reqBody.sessiontime),
   };
-  console.log(updatedUser);
   users.splice(index, 1, updatedUser);
 
   let writeResponse = await usersDAL.writeFile(users);
@@ -264,7 +260,6 @@ exports.addUserData = async (id, reqBody) => {
     sessionTime: Number(reqBody.sessiontime),
   };
 
-  console.log(newUser);
   users.push(newUser);
 
   let writeResponse = await usersDAL.writeFile(users);

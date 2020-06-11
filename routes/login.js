@@ -14,7 +14,6 @@ router.get("/", function (req, res, next) {
 router.post("/postLogin", async function (req, res, next) {
   try {
     const response = await usersBL.checkLogin(req.body);
-    // console.log(response);
     if (response.id) {
       const userData = await usersBL.findUserInJson(response.id);
       console.log(userData);
@@ -28,12 +27,32 @@ router.post("/postLogin", async function (req, res, next) {
           permissions: userData.permissions,
         };
         if (!userData.user.admin) {
-          req.session.loggedUser.sessionTime = userData.user.sessionTime;
+          req.session.timeOut = () => {
+            console.log(
+              `timer started for ${userData.user.sessionTime * 1000} millsec`
+            );
+            const timer = (time) =>
+              new Promise((resolve) =>
+                setTimeout(() => resolve("timer stoped"), time)
+              );
+            timer(userData.user.sessionTime * 60000).then((x) => {
+              clearTimeout(timer);
+              console.log(x);
+              if (req.session) {
+                // delete session object
+                req.session.destroy(function (err) {
+                  if (err) {
+                    return next(err);
+                  }
+                });
+              }
+            });
+          };
+          req.session.timeOut();
         } else {
           req.session.loggedUser.admin = userData.user.admin;
         }
         console.log(req.session.loggedUser);
-        // req.session.time=0;
       }
       res.redirect(req.session.returnTo || "/main");
       delete req.session.returnTo;
@@ -75,8 +94,16 @@ router.post("/postCreateAccount", async function (req, res, next) {
 });
 
 router.get("/logout", (req, res, next) => {
-  delete req.session.loggedUser;
-  res.redirect("/login");
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+      }
+      return res.redirect("/login");
+    });
+  }
 });
 
 module.exports = router;
