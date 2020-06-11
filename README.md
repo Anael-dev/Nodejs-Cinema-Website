@@ -2,11 +2,14 @@
 
 > Node based web site that provides a management system for movies and subscriptions
 
-> Created using express-generator and EJS modules
+> Created using <a href="https://www.npmjs.com/package/express-generator
+" target="_blank">**express generator**</a> and <a href="https://www.npmjs.com/package/ejs
+" target="_blank">**ejs**</a> modules
+
 
 ## Installation
 
-- You will need is <a href="https://nodejs.org/en/download/" target="_blank">**Node.js**</a> installed in your environement.
+- You will need a <a href="https://nodejs.org/en/download/" target="_blank">**Node.js**</a> installed in your environement.
 
 ### Clone
 
