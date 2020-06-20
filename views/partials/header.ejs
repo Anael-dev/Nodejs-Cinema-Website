@@ -11,8 +11,8 @@
   <body>
     <div class="mt-2 pb-2" style="width:90vw">
       <h5 class="font-weight-light"><%=user.fullName%></h5>
-      <h2 class="pb-2">Movies- Subscription Web Site</h2>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="width:90vw">
+      <%-include title %>
+          <nav class="navbar d-flex justify-content-between navbar-expand-md navbar-light bg-light" style="width:90vw">
           <div class="navbar-nav">
             <a class="nav-item nav-link " href="/movies">Movies</a>
             <a class="nav-item nav-link" href="/subscriptions">Subscriptions</a>
