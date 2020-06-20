@@ -1,4 +1,13 @@
 body {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(245, 246, 252, 0.52),
+      rgba(248, 158, 131, 0.73)
+    ),
+    url("../images/backgroundMain.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -24,6 +33,7 @@ a {
   border: 2px solid purple;
   width: 35%;
   padding: 15px;
+  color: aliceblue;
 }
 
 .element-form input,
