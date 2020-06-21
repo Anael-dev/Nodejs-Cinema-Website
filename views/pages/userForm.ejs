@@ -12,18 +12,20 @@
 
   </head>
   <body class="no-scroll unique">
-    <div class="m-5 pb-5 " style="width:35%">
-    <% include ../partials/title%>
+  <div class="m-5 pb-5 selected-font " style="width:35%">
+    <div>    <% include ../partials/title%>
+    </div>
+    <br/>
     <h4><%=title%></h4>
     <% if(failedMessage){ %>
-    <div class="alert alert-danger mt-3">
+    <div class="alert alert-danger mt-3" style="width:70%">
       <%=failedMessage%>
     </div>
     <%} %>
 <% if(action==="login"){ %>
-  <form method="POST" action="/login/postLogin">
+  <form method="POST" action="/login/postLogin" style="width:70%">
     <% } else{ %> 
-      <form method="POST" action="/login/postCreateAccount">
+      <form method="POST" action="/login/postCreateAccount" style="width:70%">
       <% } %>
     <div class="form-group" >
         <label for="useName:">User name:</label>
