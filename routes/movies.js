@@ -29,6 +29,8 @@ router.get("/allMovies", async function (req, res, next) {
       } catch (err) {
         console.log(err);
       }
+    } else if (req.session.loggedUser.permissions.includes("Create Movies")) {
+      res.redirect("/movies/addMovie");
     } else {
       res.redirect("/main");
     }

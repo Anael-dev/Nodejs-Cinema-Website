@@ -29,6 +29,10 @@ router.get("/allMembers", async function (req, res, next) {
       } catch (err) {
         console.log(err);
       }
+    } else if (
+      req.session.loggedUser.permissions.includes("Create Subscriptions")
+    ) {
+      res.redirect("/subscriptions/addMember");
     } else {
       res.redirect("/main");
     }
