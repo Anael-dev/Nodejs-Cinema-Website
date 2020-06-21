@@ -7,9 +7,15 @@
   
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <!-- CSS -->  </head>
+    <!-- Jquery -->  
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
   <body>
-    <div class="mt-2 pb-2" style="width:90vw">
+    <div class="mt-2 pb-2" style="width:90vw"> 
+      <%if( user.sessionTime){%>
+        <span id="timer">0:00</span>
+            <% }    %>
       <h5 class="font-weight-light"><%=user.fullName%></h5>
       <%-include title %>
           <nav class="navbar pl-0 navbar-expand-sm navbar-light " style="width:90vw;padding-top: 5px;">
@@ -44,6 +50,32 @@
         $(this).remove(); 
     });
 }, 2000);
+
+
+function countdown(userSec) {
+  seconds = parseInt(window.sessionStorage.getItem("seconds"))||userSec;
+
+  function tick() {
+    seconds--; 
+    window.sessionStorage.setItem("seconds", seconds)
+    var counter = document.getElementById("timer");
+    var current_minutes = parseInt(seconds/60);
+    var current_seconds = seconds % 60;
+    counter.innerHTML = current_minutes + ":" + (current_seconds < 10 ? "0" : "") + current_seconds;
+    if( seconds > 0 ) {
+      const time=()=>setTimeout(tick, 1000);
+      time()
+    }else{
+      window.sessionStorage.clear()
+      counter.innerHTML = 'Bye-Bye!'
+      clearTimeout(time)
+    }
+  }
+  tick();
+}
+ countdown(<%=user.sessionTime%>);
+
+
     </script>
   </body>
 </html>

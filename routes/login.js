@@ -27,13 +27,15 @@ router.post("/postLogin", async function (req, res, next) {
           permissions: userData.permissions,
         };
         if (!userData.user.admin) {
+          req.session.loggedUser.sessionTime =
+            userData.user.sessionTime * 60 + 3;
           req.session.timeOut = () => {
             console.log(
-              `timer started for ${userData.user.sessionTime * 1000} millsec`
+              `timer started for ${userData.user.sessionTime * 60000} millsec`
             );
             const timer = (time) =>
               new Promise((resolve) =>
-                setTimeout(() => resolve("timer stoped"), time)
+                setTimeout(() => resolve("timer stopped"), time)
               );
             timer(userData.user.sessionTime * 60000).then((x) => {
               clearTimeout(timer);
@@ -54,7 +56,7 @@ router.post("/postLogin", async function (req, res, next) {
         }
         console.log(req.session.loggedUser);
       }
-      req.flash("message", `Welcome Back, ${req.session.loggedUser.userName}`);
+      req.flash("message", `Welcome, ${req.session.loggedUser.userName}`);
       res.redirect(req.session.returnTo || "/main");
       delete req.session.returnTo;
     } else {
