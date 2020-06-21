@@ -6,6 +6,9 @@
 </nav>
 
 <div class="d-flex justify-content-between flex-wrap mt-2">
+  <%if(!movies.length>0){%>
+   <h4>No results found :(</h4> 
+  <%}                    %>
 <% movies.forEach((x)=>{ %>
 <div class="card mb-3 p-0" style="width: 49%;min-width: 30%;">
   <div class="row no-gutters">
