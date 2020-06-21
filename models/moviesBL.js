@@ -46,6 +46,28 @@ exports.getAllMappedMovies = async () => {
   return moviesSubscriptions;
 };
 
+exports.getFilteredMappedMovies = async (moviesArr) => {
+  const subscriptions = await subscriptionsBL.getSubscriptions();
+
+  const moviesSubscriptions = await Promise.all(
+    moviesArr.map(async (movie) => {
+      const filtered = subscriptions.filter((x) =>
+        x.movies.some((x) => x.movieId == movie.id)
+      );
+      if (filtered.length > 0) {
+        const members = await this.getMembers(filtered, movie);
+        return {
+          ...movie,
+          watchedMembers: members,
+        };
+      } else {
+        return movie;
+      }
+    })
+  );
+  return moviesSubscriptions;
+};
+
 exports.getOneMovie = async (id) => {
   const response = await moviesDAL.getById(id);
   const movie = response.data;
@@ -57,13 +79,14 @@ exports.deleteMovie = async (id) => {
   console.log(response);
 };
 
-exports.findMovie = async (reqBody) => {
+exports.findMovies = async (reqBody) => {
   if (reqBody) {
     const input = reqBody.trim().toLowerCase();
-    const response = await moviesDAL.getAll();
-    const movies = response.data;
-    const filtered = movies.filter((x) => x.name.toLowerCase().includes(input));
-    return filtered[0];
+    const movies = await this.getAllMovies();
+    const filtered = movies.filter((x) =>
+      x.name.toLowerCase().trim().includes(input)
+    );
+    return filtered;
   }
 };
 

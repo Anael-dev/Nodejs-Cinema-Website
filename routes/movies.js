@@ -36,6 +36,32 @@ router.get("/allMovies", async function (req, res, next) {
   }
 });
 
+router.get("/filteredMovies", async function (req, res, next) {
+  if (req.session.loggedUser) {
+    if (req.session.loggedUser.permissions.includes("View Movies")) {
+      try {
+        const movies = req.session.filteredMovies;
+        const mappedMovies = await moviesBL.getFilteredMappedMovies(movies);
+        // const msg = req.session.failedMessage;
+
+        res.render("pages/movies", {
+          type: "movie",
+          option: "all",
+          user: req.session.loggedUser,
+          movies: mappedMovies,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      res.redirect("/main");
+    }
+  } else {
+    req.session.returnTo = req.originalUrl;
+    res.redirect("/login");
+  }
+});
+
 router.get("/allMovies/:id", async function (req, res, next) {
   if (req.session.loggedUser) {
     if (req.session.loggedUser.permissions.includes("View Movies")) {
@@ -107,12 +133,17 @@ router.get("/deleteMovie/:id", async function (req, res, next) {
   }
 });
 
-router.post("/postFindMovie", async function (req, res, next) {
+router.post("/postFindMovies", async function (req, res, next) {
   if (req.session.loggedUser) {
     if (req.session.loggedUser.permissions.includes("View Movies")) {
       try {
-        const movie = await moviesBL.findMovie(req.body.textInput);
-        res.redirect(`/movies/allMovies/${movie._id}`);
+        const response = await moviesBL.findMovies(req.body.textInput);
+        if (response.length > 0) {
+          req.session.filteredMovies = response;
+        } else {
+          req.session.failedMessage = response;
+        }
+        res.redirect("/movies/filteredMovies");
       } catch (err) {
         console.log(err);
       }
