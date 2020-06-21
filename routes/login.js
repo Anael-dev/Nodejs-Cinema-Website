@@ -5,7 +5,7 @@ const usersBL = require("../models/usersBL");
 /* GET login page. */
 router.get("/", function (req, res, next) {
   res.render("pages/userForm", {
-    faildMessage: "",
+    failedMessage: "",
     title: "Log in page",
     action: "login",
   });
@@ -58,7 +58,7 @@ router.post("/postLogin", async function (req, res, next) {
       delete req.session.returnTo;
     } else {
       res.render("pages/userForm", {
-        faildMessage: response.message,
+        failedMessage: response.message,
         title: "Log in page",
         action: "login",
       });
@@ -70,7 +70,7 @@ router.post("/postLogin", async function (req, res, next) {
 
 router.get("/createAccount", function (req, res, next) {
   res.render("pages/userForm", {
-    faildMessage: "",
+    failedMessage: "",
     title: "Create an account",
     action: "create",
   });
@@ -83,7 +83,7 @@ router.post("/postCreateAccount", async function (req, res, next) {
       res.redirect("/login");
     } else {
       res.render("pages/userForm", {
-        faildMessage: responseMsg.failed,
+        failedMessage: responseMsg.failed,
         title: "Create an account",
         action: "create",
       });

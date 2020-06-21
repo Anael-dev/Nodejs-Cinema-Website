@@ -19,8 +19,7 @@ exports.checkLogin = (reqBody) => {
             resolve({ id: user._id, userName: user.UserName });
           } else {
             resolve({
-              message:
-                "These details don't match any existing user, please try again",
+              message: "You have entered an invalid username or password",
             });
           }
         }

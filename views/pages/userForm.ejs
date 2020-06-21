@@ -15,7 +15,11 @@
     <div class="m-5 pb-5 " style="width:35%">
     <% include ../partials/title%>
     <h4><%=title%></h4>
-    <p style="color: red;"><%=faildMessage%></p>
+    <% if(failedMessage){ %>
+    <div class="alert alert-danger mt-3">
+      <%=failedMessage%>
+    </div>
+    <%} %>
 <% if(action==="login"){ %>
   <form method="POST" action="/login/postLogin">
     <% } else{ %> 
