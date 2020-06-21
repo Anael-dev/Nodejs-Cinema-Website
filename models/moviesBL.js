@@ -80,14 +80,15 @@ exports.deleteMovie = async (id) => {
 };
 
 exports.findMovies = async (reqBody) => {
+  let filtered = [];
   if (reqBody) {
     const input = reqBody.trim().toLowerCase();
     const movies = await this.getAllMovies();
-    const filtered = movies.filter((x) =>
+    filtered = movies.filter((x) =>
       x.name.toLowerCase().trim().includes(input)
     );
-    return filtered;
   }
+  return filtered;
 };
 
 exports.addMovie = async (reqBody) => {
