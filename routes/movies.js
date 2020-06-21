@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const moviesBL = require("../models/moviesBL");
+const { request } = require("../app");
 
 /* GET movies page. */
 router.get("/", function (req, res, next) {
@@ -23,6 +24,7 @@ router.get("/allMovies", async function (req, res, next) {
           option: "all",
           user: req.session.loggedUser,
           movies: movies,
+          message: req.flash("message"),
         });
       } catch (err) {
         console.log(err);
@@ -49,6 +51,7 @@ router.get("/allMovies/:id", async function (req, res, next) {
           option: "all",
           user: req.session.loggedUser,
           movies: [movie],
+          message: "",
         });
       } catch (err) {
         console.log(err);
@@ -68,12 +71,12 @@ router.get("/editMovie/:id", async function (req, res, next) {
       try {
         const id = req.params.id;
         const movie = await moviesBL.getOneMovie(id);
-
         res.render("pages/movies", {
           type: "movie",
           option: "edit",
           user: req.session.loggedUser,
           movies: movie,
+          message: "",
         });
       } catch (err) {
         console.log(err);
@@ -93,6 +96,7 @@ router.get("/deleteMovie/:id", async function (req, res, next) {
       try {
         const id = req.params.id;
         await moviesBL.deleteMovie(id);
+        req.flash("message", "Movie deleted successfully!");
 
         res.redirect("/movies");
       } catch (err) {
@@ -113,12 +117,6 @@ router.post("/postFindMovies", async function (req, res, next) {
       try {
         const response = await moviesBL.findMovies(req.body.textInput);
         req.session.filteredMovies = response;
-
-        // if (response.length > 0) {
-        //   req.session.filteredMovies = response;
-        // } else {
-        //   req.session.failedMessage = response;
-        // }
         res.redirect("/movies/filteredMovies");
       } catch (err) {
         console.log(err);
@@ -147,6 +145,7 @@ router.get("/filteredMovies", async function (req, res, next) {
           option: "all",
           user: req.session.loggedUser,
           movies: mappedMovies ? mappedMovies : [],
+          message: "",
         });
       } catch (err) {
         console.log(err);
@@ -168,6 +167,7 @@ router.get("/addMovie", function (req, res, next) {
         option: "add",
         user: req.session.loggedUser,
         movies: "",
+        message: "",
       });
     } else {
       res.redirect("/main");
@@ -183,6 +183,7 @@ router.post("/postSaveMovie", async function (req, res, next) {
     if (req.session.loggedUser.permissions.includes("Create Movies")) {
       try {
         const response = await moviesBL.addMovie(req.body);
+        req.flash("message", "Movie created successfully!");
         res.redirect("/movies");
       } catch (err) {
         console.log(err);
@@ -202,6 +203,7 @@ router.post("/postUpdateMovie/:id", async function (req, res, next) {
       const id = req.params.id;
       try {
         const response = await moviesBL.editMovie(req.body, id);
+        req.flash("message", "Movie updated successfully!");
         res.redirect("/movies");
       } catch (err) {
         console.log(err);

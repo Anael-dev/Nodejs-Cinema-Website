@@ -33,6 +33,18 @@
           <h4 class="mt-4" ><%=typeCapitalized%>s</h4>
         <% }         %>      
     </div>
+    <%if(message.length>0){%>
+      <div class="alert alert-success message" role="alert" >
+        <%=message%>
+      </div>  <%}                    %>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      window.setTimeout(function() {
+    $(".alert").fadeTo(400, 0).slideUp(400, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+    </script>
   </body>
 </html>
 

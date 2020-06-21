@@ -24,6 +24,7 @@ router.get("/allMembers", async function (req, res, next) {
           option: "all",
           user: req.session.loggedUser,
           members: members,
+          message: req.flash("message"),
         });
       } catch (err) {
         console.log(err);
@@ -49,6 +50,7 @@ router.get("/allMembers/:id", async function (req, res, next) {
           option: "all",
           user: req.session.loggedUser,
           members: [member],
+          message: "",
         });
       } catch (err) {
         console.log(err);
@@ -68,7 +70,7 @@ router.get("/deleteMember/:id", async function (req, res, next) {
       try {
         const id = req.params.id;
         await membersBL.deleteMember(id);
-
+        req.flash("message", "Subscription deleted successfully!");
         res.redirect("/subscriptions");
       } catch (err) {
         console.log(err);
@@ -90,6 +92,7 @@ router.get("/addMember", function (req, res, next) {
         option: "add",
         user: req.session.loggedUser,
         members: "",
+        message: "",
       });
     } else {
       res.redirect("/main");
@@ -105,6 +108,7 @@ router.post("/postSaveMember", async function (req, res, next) {
     if (req.session.loggedUser.permissions.includes("Create Subscriptions")) {
       try {
         await membersBL.addMember(req.body);
+        req.flash("message", "Subscription created successfully!");
         res.redirect("/subscriptions");
       } catch (err) {
         console.log(err);
@@ -129,6 +133,7 @@ router.get("/editMember/:id", async function (req, res, next) {
           option: "edit",
           user: req.session.loggedUser,
           members: member,
+          message: "",
         });
       } catch (err) {
         console.log(err);
@@ -148,6 +153,7 @@ router.post("/postUpdateMember/:id", async function (req, res, next) {
       const id = req.params.id;
       try {
         const response = await membersBL.editMember(req.body, id);
+        req.flash("message", "Subscription updated successfully!");
         res.redirect("/subscriptions");
       } catch (err) {
         console.log(err);
@@ -176,6 +182,7 @@ router.post("/postSubscribedMovie/:id", async function (req, res, next) {
       try {
         const id = req.params.id;
         await subscriptionsBL.subscribeToMovie(req.body, id);
+        req.flash("message", "Created subscription successfully!");
         res.redirect("/subscriptions");
       } catch (err) {
         console.log(err);

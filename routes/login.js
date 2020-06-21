@@ -54,6 +54,7 @@ router.post("/postLogin", async function (req, res, next) {
         }
         console.log(req.session.loggedUser);
       }
+      req.flash("message", `Welcome Back, ${req.session.loggedUser.userName}`);
       res.redirect(req.session.returnTo || "/main");
       delete req.session.returnTo;
     } else {

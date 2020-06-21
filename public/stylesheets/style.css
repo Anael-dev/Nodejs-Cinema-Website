@@ -77,3 +77,8 @@ label {
   background-attachment: fixed;
   background-position: center;
 }
+
+.message {
+  width: 35%;
+  padding: 0px;
+}

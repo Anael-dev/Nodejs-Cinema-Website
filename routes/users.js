@@ -26,6 +26,7 @@ router.get("/allUsers", async function (req, res, next) {
         user: req.session.loggedUser,
         users: users,
         permissions: "",
+        message: req.flash("message"),
       });
     } else {
       res.redirect("/main");
@@ -46,6 +47,7 @@ router.get("/addUser", async function (req, res, next) {
         user: req.session.loggedUser,
         users: "",
         permissions: permissions,
+        message: "",
       });
     } else {
       res.redirect("/main");
@@ -61,7 +63,7 @@ router.post("/postSaveUser", async function (req, res, next) {
     if (req.session.loggedUser.admin) {
       const response = await usersBL.addUser(req.body);
       response.forEach((x) => console.log(x));
-
+      req.flash("message", "User created successfully!");
       res.redirect("/users/allUsers");
     } else {
       res.redirect("/main");
@@ -84,6 +86,7 @@ router.get("/editUser/:id", async function (req, res, next) {
         user: req.session.loggedUser,
         users: user,
         permissions: permissions,
+        message: "",
       });
     } else {
       res.redirect("/main");
@@ -100,6 +103,7 @@ router.post("/postUpdateUser/:id", async function (req, res, next) {
       const id = req.params.id;
       const response = await usersBL.updateUser(req.params.id, req.body);
       response.forEach((x) => console.log(x));
+      req.flash("message", "User updated successfully!");
       res.redirect("/users/allUsers");
     } else {
       res.redirect("/main");
@@ -129,6 +133,7 @@ router.get("/deleteUser/:id", async function (req, res, next) {
       const id = req.params.id;
       const response = await usersBL.deleteUser(id);
       response.forEach((x) => console.log(x));
+      req.flash("message", "User deleted successfully!");
       res.redirect("/users/allUsers");
     } else {
       res.redirect("/main");
