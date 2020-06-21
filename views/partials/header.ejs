@@ -12,14 +12,14 @@
     <div class="mt-2 pb-2" style="width:90vw">
       <h5 class="font-weight-light"><%=user.fullName%></h5>
       <%-include title %>
-          <nav class="navbar d-flex justify-content-between navbar-expand-md navbar-light " style="width:90vw;padding: 0px;background-color:rgba(216, 220, 248, 0.884);border-radius: 5px;">
+          <nav class="navbar pl-0 navbar-expand-sm navbar-light " style="width:90vw;padding-top: 5px;">
           <div class="navbar-nav">
-            <a class="nav-item nav-link " href="/movies">Movies</a>
-            <a class="nav-item nav-link" href="/subscriptions">Subscriptions</a>
+            <a class="nav-item nav-link item " href="/movies">Movies</a>
+            <a class="nav-item nav-link item" href="/subscriptions">Subscriptions</a>
             <% if(user.admin){ %>
-            <a class="nav-item nav-link" href="/users">Users Management</a>
+            <a class="nav-item nav-link item" href="/users">Users Management</a>
             <% } %>
-            <a class="nav-item nav-link" href="/login/logout">Log Out</a>
+            <a class="nav-item nav-link item" href="/login/logout">Log Out</a>
           </div>
       </nav>
       

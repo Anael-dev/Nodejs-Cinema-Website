@@ -10,7 +10,7 @@ body {
       rgba(185, 194, 250, 0.52),
       rgba(248, 158, 131, 0.73)
     ),
-    url("../images/action.jpg");
+    url("../images/backgroundMain.jpg");
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -56,4 +56,24 @@ label {
 
 .no-scroll {
   overflow: hidden;
+}
+
+.item {
+  margin-right: 10px;
+  border: 1px solid rgba(248, 245, 243, 0.73);
+  border-radius: 5px;
+  padding: 0.5px;
+  font-weight: 500;
+}
+
+.unique {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(185, 194, 250, 0.52),
+      rgba(248, 158, 131, 0.73)
+    ),
+    url("../images/action.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
 }
