@@ -2,7 +2,7 @@
 
 > Node based web site that provides a management system for movies and subscriptions
 
- <img src="images/screen.png" height="200" alt="Screenshot"/>
+ <img src="public/images/screen.png" height="200" alt="Screenshot"/>
 
 > Created using <a href="https://www.npmjs.com/package/express-generator
 > " target="_blank">**express generator**</a> and <a href="https://www.npmjs.com/package/ejs
