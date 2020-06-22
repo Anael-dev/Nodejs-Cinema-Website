@@ -2,10 +2,14 @@
 
 > Node based web site that provides a management system for movies and subscriptions
 
-> Created using <a href="https://www.npmjs.com/package/express-generator
-" target="_blank">**express generator**</a> and <a href="https://www.npmjs.com/package/ejs
-" target="_blank">**ejs**</a> modules
+ <img src="images/screen.png" height="200" alt="Screenshot"/>
 
+> Created using <a href="https://www.npmjs.com/package/express-generator
+> " target="_blank">**express generator**</a> and <a href="https://www.npmjs.com/package/ejs
+> " target="_blank">**ejs**</a> modules
+
+
+![Web site Demo](public/demo.gif)
 
 ## Installation
 
@@ -31,7 +35,7 @@ $ npm install
 $ npm start
 ```
 
->Navigate to
+> Navigate to
 
 ```shell
 $ http://localhost:3000/
