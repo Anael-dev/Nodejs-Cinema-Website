@@ -27,8 +27,7 @@ router.post("/postLogin", async function (req, res, next) {
           permissions: userData.permissions,
         };
         if (!userData.user.admin) {
-          req.session.loggedUser.sessionTime =
-            userData.user.sessionTime * 60 + 4;
+          req.session.loggedUser.sessionTime = userData.user.sessionTime * 60;
           req.session.timeOut = () => {
             console.log(
               `timer started for ${userData.user.sessionTime * 60000} millsec`
@@ -99,13 +98,8 @@ router.post("/postCreateAccount", async function (req, res, next) {
 router.get("/logout", (req, res, next) => {
   if (req.session) {
     // delete session object
-    req.session.destroy(function (err) {
-      if (err) {
-        return next(err);
-      } else {
-      }
-      return res.redirect("/login");
-    });
+    req.session.destroy();
+    res.redirect("/login");
   }
 });
 
