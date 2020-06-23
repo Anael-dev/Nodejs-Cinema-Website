@@ -17,9 +17,6 @@ router.post("/postLogin", async function (req, res, next) {
     if (response.id) {
       const userData = await usersBL.findUserInJson(response.id);
       console.log(userData);
-      if (req.session.loggedUser) {
-        //check cradentials and session time//
-      } else {
         req.session.loggedUser = {
           id: response.id,
           userName: response.userName,
@@ -54,7 +51,7 @@ router.post("/postLogin", async function (req, res, next) {
           req.session.loggedUser.admin = userData.user.admin;
         }
         console.log(req.session.loggedUser);
-      }
+     
       req.flash("message", `Welcome, ${req.session.loggedUser.userName}`);
       res.redirect(req.session.returnTo || "/main");
       delete req.session.returnTo;
